@@ -5,11 +5,11 @@
 1. [Description](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#description)
 2. [Installation](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#installation)
 3. [Usage](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#usage)
-  * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-  * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-  * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-  * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-  * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
 
 ##### Description
 This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
