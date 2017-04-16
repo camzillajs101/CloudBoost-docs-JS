@@ -35,7 +35,7 @@ var obj = new CB.CloudObject('TableName');
 var query = new CB.CloudQuery('TableName');
 ```
 Notice you use `CloudObject` for posting data, and `CloudQuery` for querying data. You must also replace `'TableName'` with the name of the table you wish to post to or query from. Once we have initiated the variables, you can set, query, change, and delete data.
-1. ##### Setting/posting data
+1. #### Setting/posting data
 uses the Ajax/HTTP method `PUT`. When setting data, use this:
 ```JavaScript
 obj.set('columnName','data');
