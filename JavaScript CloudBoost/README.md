@@ -5,11 +5,11 @@
 1. [Description](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#description)
 2. [Installation](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#installation)
 3. [Usage](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#usage)
-    * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-    * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-    * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-    * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
-    * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#)
+    * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data)
+    * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#queryinggetting-data)
+    * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)
+    * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#deleting-rows)
+    * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying)
 
 ##### Description
 This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
@@ -52,7 +52,7 @@ obj.save({
 });
 ```
 *Tip: Keep in mind that the single parameter in `.save` is an object! Use good syntax and remember your commas.*
-Notice you use the same variable, `obj`, for `.set` and `.save`. You can repeat the `.set` method as many times as you want, as long as you call `.save` after it. The first method, `success`, executes when the `PUT` is a success and the data was posted to CloudBoost. The `obj` parameter returned is the data that you posted. The second method, `error`, executes when the `PUT` encountered an error. The `error` parameter returned is the error that the server threw. If this happened, there was an mistake caused by either you or the server, and the data was *not* saved. Also, you can change the name of the parameter in both methods. *Important note: this *`set`* method will create a new row. To change data in an existing row, see the *[Changing Data]()* section.*<br>*
+Notice you use the same variable, `obj`, for `.set` and `.save`. You can repeat the `.set` method as many times as you want, as long as you call `.save` after it. The first method, `success`, executes when the `PUT` is a success and the data was posted to CloudBoost. The `obj` parameter returned is the data that you posted. The second method, `error`, executes when the `PUT` encountered an error. The `error` parameter returned is the error that the server threw. If this happened, there was an mistake caused by either you or the server, and the data was *not* saved. Also, you can change the name of the parameter in both methods. *Important note: this *`set`* method will create a new row. To change data in an existing row, see the *[Changing Data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)* section.*<br>*
 
 2. #### Querying/getting data
 uses the Ajax/HTTP method `GET`. When querying data, use this:
@@ -69,7 +69,7 @@ query.find({
 Notice you use the other variable, `query`, and the method `.find`. The methods are the same as `.save`, except that `list` is an array of all of the rows in the table. Also, no `.save` method is required because no data was pushed to CloudBoost.<br>
 
 3. #### Changing data
-uses both methods, `PUT` and `GET`. First you must find the row you want to change. I'm going to use the `.findById` method (see [Methods of querying]() section).
+uses both methods, `PUT` and `GET`. First you must find the row you want to change. I'm going to use the `.findById` method (see [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section).
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -80,7 +80,7 @@ query.findById('id',{
     }
 });
 ```
-The `list` parameter is a single array, the row. Replace `'id'` with the ID of the row. More on this in the [Methods of querying]() section. Next, add a `.set` method to set any column to what you want.
+The `list` parameter is a single array, the row. Replace `'id'` with the ID of the row. More on this in the [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section. Next, add a `.set` method to set any column to what you want.
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -99,10 +99,10 @@ query.findById('id',{
     }
 });
 ```
-Follow the guidelines in the [Setting/posting data]() section to set the data. You can repeat this as many times as you want. Notice you `.set` and `.save` to *`list`*, not `obj`. You do this because you are saving to a specific *row*, not the whole object.<br>
+Follow the guidelines in the [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data) section to set the data. You can repeat this as many times as you want. Notice you `.set` and `.save` to *`list`*, not `obj`. You do this because you are saving to a specific *row*, not the whole object.<br>
 
 4. #### Deleting rows
-uses both methods, `PUT` and `GET`, and is similar to the [Changing data]() section. You must first find the row you would like to delete:
+uses both methods, `PUT` and `GET`, and is similar to the [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data) section. You must first find the row you would like to delete:
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -113,7 +113,7 @@ query.findById('id',{
     }
 });
 ```
-Replace `'id'` with the row's ID. More on this in the [Methods of querying]() section. Next, add a `.delete` method to delete the row.
+Replace `'id'` with the row's ID. More on this in the [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section. Next, add a `.delete` method to delete the row.
 ```JavaScript
 query.findById('id',{
   success: function(list){
