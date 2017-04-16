@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+		<!-- Script SRC tag -->
+		<script src="https://cloudboost.io/js-sdk/cloudboost.min.js"></script>
+		<style>
+
+		</style>
+	</head>
+	<body>
+		<script>
+		// APP INITIATION
+			// Application initiation
+			CB.CloudApp.init('APP-ID','CLIENT-KEY');
+
+			// Local variable initiation
+			var obj = new CB.CloudObject('TableName'); // Use CloudObject for setting data
+			var query = new CB.CloudQuery('TableName'); // Use CloudQuery for getting data
+
+		// CHANGING/RETRIEVING DATA
+			// Setting data (uses Ajax PUT)
+
+			// Use variable 'obj'
+			obj.set('columnName','data'); // Will create a new row
+			/* !! Important note: using the .set() method will only change the local variable. .save() is required to change the master data on CloudBoost. !! */
+			// Saving the data
+			obj.save({ // Object
+				success: function(obj){ // Callback success function
+					// Executes if the data is saved successfully onto CloudBoost
+					// obj parameter = saved object
+					console.log("Success: "+obj); // Alert will not display the object
+				}, // Always need a comma
+				error: function(error){ // Callback error function
+					// Executes if an error was encountered during the save and the data was NOT saved
+					// error parameter = error encountered
+					alert("Error: "+error);
+				} // No comma
+			});
+
+			// Getting data (uses Ajax GET)
+
+			// Use variable 'query'
+			query.find({ // Object
+				success: function(list){ // Callback success function
+					// Executes if the data was successfully retrieved
+					// list parameter = all rows in table in the form of an array
+					console.log("Success: "+list); // Alert will not display the array
+				}, // Always need a comma
+				error: function(error){ // Callback error function
+					// Executes if an error was encountered during the data retrieval
+					// error parameter = error encountered
+					alert("Error: "+error);
+				} // No comma
+			});
+			// No save() method is required because no data was pushed
+			query.equalTo('columnName','data'); // If another .find() method is called after this, only the row with data in the specified column matching the argument put into the .equalTo() method will be returned in the list parameter of the .find() method
+			query.notEqualTo('columnName','data'); // If another .find() method is called after this, only the rows with data in the specified column NOT matching the argument put into the .notEqualTo() method will be returned in the list parameter of the .find() method
+			query.containedIn('columnName',['data1','data2','data3']); // If another .find() method is called after this, only the rows with data in the specified column matching any of the items in the array put into the .containedIn() method will be returned in the list parameter of the .find() method
+			query.notContainedIn('columnName',['data1','data2','data3']); // If another .find() method is called after this, only the rows with data in the specified column NOT matching any of the items in the array put into the .notContainedIn() method will be returned in the list parameter of the .find() method
+			query.containsAll('columnName',['data1','data2','data3']); // If another .find() method is called after this, only the rows with data in the specified column matching ALL of the items in the array put into the .containsAll() method will be returned in the list parameter of the .find() method
+			query.greaterThan('columnName',42); // If another .find() method is called after this, only the rows with data in the specified column greater than the argument put into the .greaterThan() method will be returned in the list parameter of the .find() method
+			query.lessThan('columnName',42); // If another .find() method is called after this, only the rows with data in the specified column less than the argument put into the .lessThan() method will be returned in the list parameter of the .find() method
+			query.startsWith('columnName','a'); // If another .find() method is called after this, only the rows with data in the specified column starting with the argument put into the .startsWith() method will be returned in the list parameter of the .find() method
+			query.findById('id',{ /* Callback functions */ }); // Only the row with the specified id will be returned in the list parameter of the .find() method
+
+			// Changing data
+			query.findById('id',{ // Use whatever method you need to get a specific row, I'm using .findById()
+				success: function(list){ // Callback success function
+					// list is the specific row
+					list.set('columnName','data'); // Set on the specific row
+					list.save({ // Save like normal
+						success: function(obj){
+							alert("Data changed");
+						},
+						error: function(error){
+							alert("Error: "+error);
+						}
+					});
+				},
+				error: function(error){ // Callback error function
+					alert("Error: "+error);
+				}
+			});
+			// Sometimes you will need to nest many saves, be aware and keep track of when you need commas!
+
+			// Deleting rows
+			query.findById('id',{ // Use whatever method you need to get a specific row, I'm using .findById()
+				success: function(list){ // Callback success function
+					// list[0] is the specific row (remember, list is an array)
+					list.delete({ // No save is needed
+						success: function(obj){
+							alert("Data deleted");
+						},
+						error: function(error){
+							alert("Error: "+error);
+						}
+					});
+				},
+				error: function(error){ // Callback error function
+					alert("Error: "+error);
+				}
+			});
+		</script>
+	</body>
+</html>
