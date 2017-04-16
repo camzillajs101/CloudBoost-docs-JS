@@ -54,7 +54,7 @@ obj.save({
 *Tip: Keep in mind that the single parameter in `.save` is an object! Use good syntax and remember your commas.*
 Notice you use the same variable, `obj`, for `.set` and `.save`. You can repeat the `.set` method as many times as you want, as long as you call `.save` after it. The first method, `success`, executes when the `PUT` is a success and the data was posted to CloudBoost. The `obj` parameter returned is the data that you posted. The second method, `error`, executes when the `PUT` encountered an error. The `error` parameter returned is the error that the server threw. If this happened, there was an mistake caused by either you or the server, and the data was *not* saved. Also, you can change the name of the parameter in both methods. *Important note: this *`set`* method will create a new row. To change data in an existing row, see the *[Changing Data]()* section.*<br>*
 
-2. ##### Querying/getting data
+2. #### Querying/getting data
 uses the Ajax/HTTP method `GET`. When querying data, use this:
 ```JavaScript
 query.find({
@@ -68,7 +68,7 @@ query.find({
 ```
 Notice you use the other variable, `query`, and the method `.find`. The methods are the same as `.save`, except that `list` is an array of all of the rows in the table. Also, no `.save` method is required because no data was pushed to CloudBoost.<br>
 
-3. ##### Changing data
+3. #### Changing data
 uses both methods, `PUT` and `GET`. First you must find the row you want to change. I'm going to use the `.findById` method (see [Methods of querying]() section).
 ```JavaScript
 query.findById('id',{
@@ -101,7 +101,7 @@ query.findById('id',{
 ```
 Follow the guidelines in the [Setting/posting data]() section to set the data. You can repeat this as many times as you want. Notice you `.set` and `.save` to *`list`*, not `obj`. You do this because you are saving to a specific *row*, not the whole object.<br>
 
-4. ##### Deleting rows
+4. #### Deleting rows
 uses both methods, `PUT` and `GET`, and is similar to the [Changing data]() section. You must first find the row you would like to delete:
 ```JavaScript
 query.findById('id',{
@@ -133,7 +133,7 @@ query.findById('id',{
 ```
 Notice you call `.delete` on `list`, not `obj`. You do this because you are deleting the *row*, (thank heavens) not the entire TABLE. No `.save` method is needed, as it is built into the `.delete` method.<br>
 
-5. ##### Methods of querying:
+5. #### Methods of querying:
 for every one of these *except* `.findById`, you must call another `.find` after it. All of these set the query to *only the row* that makes the statement true. Once a `.find` method is called after this, it still returns `list` in an array, (except `.findById`, `list` is a single array) *even if* there is only one row that matches the inequality. In that case, use `list[0]` to get it.
   * `query.equalTo('columnName','data');`<br>
   This tests if `'data'` is equal to something in any row, in the column `'columnName'`.
