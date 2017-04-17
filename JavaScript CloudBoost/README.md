@@ -207,6 +207,7 @@ user.signUp({
 ```
 Take note that the `password` column is **encrypted**. When using a query, you won't be able to see it.<br><br>
 The parameters in `.signUp` are the same as `.save` (`new_user` is the user that signed up). This also sets `CB.CloudUser.current` to the user that signed up.
+
 2. #### Log In
 uses the Ajax/HTTP methods `PUT` and `GET`. To log a user in, `.set` to `user` with *only* the submitted username and password.
 ```JavaScript
@@ -226,6 +227,7 @@ user.logIn({
 });
 ```
 Keep in mind that `error` could be the server's error, *or* the client's. Most likely, since you are using `.logIn`, the error will be caused by an unsuccessful login attempt. In this case, there was an error because the user submitted the wrong username and password. If the user logs in correctly, it sets `CB.CloudUser.current` to the user that is logged in. Also, `new_user` is the user that logged in.
+
 3. #### Log out
 This is a simple method; all it does is set `CB.CloudUser.current` to `null`. No `.set`s are required:
 ```JavaScript
