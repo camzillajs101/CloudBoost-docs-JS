@@ -229,9 +229,9 @@ user.logIn({
 Keep in mind that `error` could be the server's error, *or* the client's. Most likely, since you are using `.logIn`, the error will be caused by an unsuccessful login attempt. In this case, there was an error because the user submitted the wrong username and password. If the user logs in correctly, it sets `CB.CloudUser.current` to the user that is logged in. Also, `new_user` is the user that logged in.
 
 3. #### Log out
-This is a simple method; all it does is set `CB.CloudUser.current` to `null`. No `.set`s are required:
+This is a simple method; all it does is set `CB.CloudUser.current` to `null`. No `.set`s are required. You do, however, need to call `.logOut` on `CB.CloudUser.current`, not `user`:
 ```JavaScript
-user.logOut({
+CB.CloudUser.current.logOut({
     success: function(old_user){
       alert("Logged out!");
       console.log(old_user);
