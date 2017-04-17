@@ -1,23 +1,31 @@
 # CloudBoost
 ##### By Camilo. Always.
 ***
-##### Table of Contents
+### Table of Contents
 1. [Description](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#description)
 2. [Installation](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#installation)
 3. [Usage](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#usage)
-    * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data)
-    * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#queryinggetting-data)
-    * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)
-    * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#deleting-rows)
-    * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying)
+    * [Setup](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#setup)
+    * [CloudObject and CloudQuery](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudobject-and-cloudquery)
+        * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data)
+        * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#queryinggetting-data)
+        * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)
+        * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#deleting-rows)
+        * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying)
+    * [CloudUser](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#clouduser)
+        * [Sign Up](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#sign-up)
+        * [Log In](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#log-in)
+        * [Log Out](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#log-out)
+    * [CloudSearch](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudsearch)
 
-##### Description
+### Description
 This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
 
-##### Installation
+### Installation
 No installation required.
 
-##### Usage
+### Usage
+#### Setup
 In your HTML file, include this `<script>` tag:
 ```html
 <script src="https://cloudboost.io/js-sdk/cloudboost.min.js"></script>
@@ -27,6 +35,9 @@ In JavaScript, initiate the CloudApp using this:
 CB.CloudApp.init('APP-ID','CLIENT-KEY');
 ```
 * You'll need to register for an app at the CloudBoost website, where you can find your app ID and Client Key.
+
+#### CloudObject and CloudQuery
+*These two CloudBoost variables are the main ones, used to post and get data from custom-created tables.*
 * There's quite a bit you must do on the website, such as now creating a new table.
 * Once you have the table name, create the variables you will use for posting and querying data.
 
@@ -163,6 +174,72 @@ for every one of these *except* `.findById`, you must call another `.find` after
   This will give you the same array as if you just called `.find`, but in *descending* order.
   * `query.findById('id',{ /* Callback functions */ });`<br>
   This is the only method that does not require a follow-up `.find`. You must replace `'id'` with the ID of the row. This can be found in the first column of the row. The callback functions are the normal `.find` callbacks, `success` and `error`.
+
+#### CloudUser
+*This CloudBoost variable is used with an already-existing table, the Users table. It's used for websites where users are involved. Also, *`CB.CloudUser.current`* is another variable that has the info of the user that is logged in. If the user is logged out, `CB.CloudUser.current` is null.*
+
+*Important note: This section requires knowledge of the basics, which you can find all in [CloudObject and CloudQuery](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudobject-and-cloudquery). I would recommend not reading this section until you have read the previous one.*<br>
+
+Since `CloudUser` is used with a pre-existing table, you don't need to create a new one. Just initialize like normal and create the variables:
+```JavaScript
+var user = new CB.CloudUser();
+```
+Note that we are using `CloudUser`. You also don't need any parameters because no table name is required. Now that the variable is declared, we can sign up, log in, and log out users, faster that ever before!
+1. #### Sign up
+uses the Ajax/HTTP method `PUT`, and is basically the same thing as the `.save` method. To sign up is pretty simple; just use `.set` to set the `username`, `password`, and `email` to the local variable:
+```JavaScript
+user.set('username','abc');
+user.set('password','xyz');
+user.set('email','test@example.com');
+```
+The `email` must not be already registered with a different user.<br>
+Then use the `.signUp` method like you would call `.save`:
+```JavaScript
+user.signUp({
+    success: function(new_user){
+      console.log(new_user);
+      alert("Signed Up!");
+    },
+    error: function(error){
+      alert("Error: "+error);
+    }
+});
+```
+Take note that the `password` column is **encrypted**. When using a query, you won't be able to see it.<br><br>
+The parameters in `.signUp` are the same as `.save` (`new_user` is the user that signed up). This also sets `CB.CloudUser.current` to the user that signed up.
+2. #### Log In
+uses the Ajax/HTTP methods `PUT` and `GET`. To log a user in, `.set` to `user` with *only* the submitted username and password.
+```JavaScript
+user.set('username','xyz');
+user.set('password','abc');
+```
+Now, use `.logIn` like you would `.save`:
+```JavaScript
+user.logIn({
+    success: function(new_user){
+      alert("Logged in!");
+      console.log(new_user);
+    },
+    error: function(error){
+      alert("Error: "+error);
+    }
+});
+```
+Keep in mind that `error` could be the server's error, *or* the client's. Most likely, since you are using `.logIn`, the error will be caused by an unsuccessful login attempt. In this case, there was an error because the user submitted the wrong username and password. If the user logs in correctly, it sets `CB.CloudUser.current` to the user that is logged in. Also, `new_user` is the user that logged in.
+3. #### Log out
+This is a simple method; all it does is set `CB.CloudUser.current` to `null`. No `.set`s are required:
+```JavaScript
+user.logOut({
+    success: function(old_user){
+      alert("Logged out!");
+      console.log(old_user);
+    },
+    error: function(error){
+      alert("Error: "+error)
+    }
+});
+```
+Note that this will log out the *current CloudUser* (`CB.CloudUser.current`).
 
 Have fun!<br>
   -Camilo
