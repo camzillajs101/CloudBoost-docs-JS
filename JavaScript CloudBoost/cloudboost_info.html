@@ -102,6 +102,48 @@
 					alert("Error: "+error);
 				}
 			});
+
+		// CLOUDUSER
+			// Local variable initiation
+			var user = new CB.CloudUser();
+
+			// Sign up
+			user.set('username','abc');
+			user.set('password','xyz');
+			user.set('email','test@example.com');
+			user.signUp({
+				success: function(new_user){
+					alert("Signed up!");
+					console.log(new_user);
+				},
+				error: function(error){
+					alert("Error: "+error);
+				}
+			}); // CB.CloudUser.current = new_user
+
+			// Log in
+			user.set('username','submitted_username');
+			user.set('password','submitted_password');
+			user.logIn({
+				success: function(new_user){
+					alert("Logged in!");
+					console.log(new_user);
+				},
+				error: function(error){
+					alert("Error: "+error);
+				}
+			}); // CB.CloudUser.current = new_user
+
+			// Log out
+			CB.CloudUser.current.logOut({ // Call .logOut on CB.CloudUser.current, not user
+				success: function(old_user){
+					alert("Logged out!");
+					console.log(old_user);
+				},
+				error: function(error){
+					alert("Error: "+error);
+				}
+			});
 		</script>
 	</body>
 </html>
