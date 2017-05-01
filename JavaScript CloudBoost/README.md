@@ -2,27 +2,35 @@
 ##### By Camilo. Always.
 ***
 ### Table of Contents
-1. [Description](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#description)
-2. [Installation](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#installation)
-3. [Usage](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#usage)
-    * [Setup](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#setup)
-    * [CloudObject and CloudQuery](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudobject-and-cloudquery)
-        * [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data)
-        * [Querying/getting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#queryinggetting-data)
-        * [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)
-        * [Deleting rows](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#deleting-rows)
-        * [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying)
-    * [CloudUser](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#clouduser)
-        * [Sign Up](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#sign-up)
-        * [Log In](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#log-in)
-        * [Log Out](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#log-out)
-    * [CloudSearch](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudsearch)
+1. [Description](#description)
+2. [Installation](#installation)
+3. [Usage](#usage)
+    * [Setup](#setup)
+    * [CloudObject and CloudQuery](#cloudobject-and-cloudquery)
+        * [Setting/posting data](#settingposting-data)
+        * [Querying/getting data](#queryinggetting-data)
+        * [Changing data](#changing-data)
+        * [Deleting rows](#deleting-rows)
+        * [Methods of querying](#methods-of-querying)
+    * [CloudUser](#clouduser)
+        * [Sign Up](#sign-up)
+        * [Log In](#log-in)
+        * [Log Out](#log-out)
+    * [CloudSearch](#cloudsearch)
 
 ### Description
 This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
 
 ### Installation
-No installation required.
+No installation required, unless you are using Node.js. In that case, make sure you are in your app's directory, and run this command in the command line:
+```bash
+npm install cloudboost
+```
+And initiate with this:
+```JavaScript
+var CB = require('cloudboost');
+```
+Everything thereafter is the same.
 
 ### Usage
 #### Setup
@@ -63,7 +71,7 @@ obj.save({
 });
 ```
 *Tip: Keep in mind that the single parameter in `.save` is an object! Use good syntax and remember your commas.*
-Notice you use the same variable, `obj`, for `.set` and `.save`. You can repeat the `.set` method as many times as you want, as long as you call `.save` after it. The first method, `success`, executes when the `PUT` is a success and the data was posted to CloudBoost. The `obj` parameter returned is the data that you posted. The second method, `error`, executes when the `PUT` encountered an error. The `error` parameter returned is the error that the server threw. If this happened, there was an mistake caused by either you or the server, and the data was *not* saved. Also, you can change the name of the parameter in both methods. *Important note: this *`set`* method will create a new row. To change data in an existing row, see the *[Changing Data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data)* section.*<br>*
+Notice you use the same variable, `obj`, for `.set` and `.save`. You can repeat the `.set` method as many times as you want, as long as you call `.save` after it. The first method, `success`, executes when the `PUT` is a success and the data was posted to CloudBoost. The `obj` parameter returned is the data that you posted. The second method, `error`, executes when the `PUT` encountered an error. The `error` parameter returned is the error that the server threw. If this happened, there was an mistake caused by either you or the server, and the data was *not* saved. Also, you can change the name of the parameter in both methods. *Important note: this *`set`* method will create a new row. To change data in an existing row, see the *[Changing Data](#changing-data)* section.*<br>*
 
 2. #### Querying/getting data
 uses the Ajax/HTTP method `GET`. When querying data, use this:
@@ -80,7 +88,7 @@ query.find({
 Notice you use the other variable, `query`, and the method `.find`. The methods are the same as `.save`, except that `list` is an array of all of the rows in the table. Also, no `.save` method is required because no data was pushed to CloudBoost.<br>
 
 3. #### Changing data
-uses both methods, `PUT` and `GET`. First you must find the row you want to change. I'm going to use the `.findById` method (see [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section).
+uses both methods, `PUT` and `GET`. First you must find the row you want to change. I'm going to use the `.findById` method (see [Methods of querying](#methods-of-querying) section).
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -91,7 +99,7 @@ query.findById('id',{
     }
 });
 ```
-The `list` parameter is a single array, the row. Replace `'id'` with the ID of the row. More on this in the [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section. Next, add a `.set` method to set any column to what you want.
+The `list` parameter is a single array, the row. Replace `'id'` with the ID of the row. More on this in the [Methods of querying](#methods-of-querying) section. Next, add a `.set` method to set any column to what you want.
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -110,10 +118,10 @@ query.findById('id',{
     }
 });
 ```
-Follow the guidelines in the [Setting/posting data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#settingposting-data) section to set the data. You can repeat this as many times as you want. Notice you `.set` and `.save` to *`list`*, not `obj`. You do this because you are saving to a specific *row*, not the whole object.<br>
+Follow the guidelines in the [Setting/posting data](#settingposting-data) section to set the data. You can repeat this as many times as you want. Notice you `.set` and `.save` to *`list`*, not `obj`. You do this because you are saving to a specific *row*, not the whole object.<br>
 
 4. #### Deleting rows
-uses both methods, `PUT` and `GET`, and is similar to the [Changing data](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#changing-data) section. You must first find the row you would like to delete:
+uses both methods, `PUT` and `GET`, and is similar to the [Changing data](#changing-data) section. You must first find the row you would like to delete:
 ```JavaScript
 query.findById('id',{
     success: function(list){
@@ -124,7 +132,7 @@ query.findById('id',{
     }
 });
 ```
-Replace `'id'` with the row's ID. More on this in the [Methods of querying](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#methods-of-querying) section. Next, add a `.delete` method to delete the row.
+Replace `'id'` with the row's ID. More on this in the [Methods of querying](#methods-of-querying) section. Next, add a `.delete` method to delete the row.
 ```JavaScript
 query.findById('id',{
   success: function(list){
@@ -178,7 +186,7 @@ for every one of these *except* `.findById`, you must call another `.find` after
 #### CloudUser
 *This CloudBoost variable is used with an already-existing table, the Users table. It's used for websites where users are involved. Also, *`CB.CloudUser.current`* is another variable that has the info of the user that is logged in. If the user is logged out, `CB.CloudUser.current` is null.*
 
-*Important note: This section requires knowledge of the basics, which you can find all in [CloudObject and CloudQuery](https://github.com/camzillajs101/For-Fun-Projects/blob/master/JavaScript%20CloudBoost/README.md#cloudobject-and-cloudquery). I would recommend not reading this section until you have read the previous one.*<br>
+*Important note: This section requires knowledge of the basics, which you can find all in [CloudObject and CloudQuery](#cloudobject-and-cloudquery). I would recommend not reading this section until you have read the previous one.*<br>
 
 Since `CloudUser` is used with a pre-existing table, you don't need to create a new one. Just initialize like normal and create the variables:
 ```JavaScript
@@ -242,6 +250,21 @@ CB.CloudUser.current.logOut({
 });
 ```
 Note that this will log out the *current CloudUser* (`CB.CloudUser.current`).
+
+#### CloudSearch
+*This is a Cloud variable not used for posting at all, but just for getting and sorting the data, or filtering it.*
+
+*Same thing as the previous section; you shouldn't read this until you have read [CloudObject and CloudQuery](#cloudobject-and-cloudquery), or unless you already have previous knowledge of CloudBoost.*
+
+* First, you must create a new table (unless you already have an existing one that you will use).
+* Then, initiate, like always:
+
+```JavaScript
+var search = new CB.CloudSearch('TableName');
+```
+Again, replace `'TableName'` with the name of your table.
+
+*Important note: Remember, you always need to initiate the `CloudApp` (see [Setup](#setup)) at the beginning of your files. If you are doing this in different files, each of them need their own `.init`. However, if you are doing this all in the same CloudApp, you will use the same app ID and client key.*
 
 Have fun!<br>
   -Camilo
