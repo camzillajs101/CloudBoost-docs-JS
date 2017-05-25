@@ -7,16 +7,26 @@
 3. [Usage](#usage)
     * [Setup](#setup)
     * [CloudObject and CloudQuery](#cloudobject-and-cloudquery)
+        * [Constructor](#constructor)
         * [Setting/posting data](#settingposting-data)
         * [Querying/getting data](#queryinggetting-data)
         * [Changing data](#changing-data)
         * [Deleting rows](#deleting-rows)
         * [Methods of querying](#methods-of-querying)
     * [CloudUser](#clouduser)
+        * [Constructor](#constructor-1)
         * [Sign Up](#sign-up)
         * [Log In](#log-in)
         * [Log Out](#log-out)
-    * [CloudSearch](#cloudsearch)
+    * [CloudSearch](#cloudsearch) (Work in progress!)
+        * [Constructor](#constructor-2)
+        * [SearchQuery](#searchquery)
+        * [SearchFilter](#searchfilter)
+    * [CloudGeoPoint](#cloudgeopoint)
+        * [Constructor](#constructor-3)
+        * [Distance in Kilometers](#distance-in-kilometers)
+        * [Distance in Miles](#distance-in-miles)
+        * [Distance in Radians](#distance-in-radians)
 
 ### Description
 This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
@@ -49,11 +59,15 @@ CB.CloudApp.init('APP-ID','CLIENT-KEY');
 * There's quite a bit you must do on the website, such as now creating a new table.
 * Once you have the table name, create the variables you will use for posting and querying data.
 
+
+##### Constructor
 ```JavaScript
 var obj = new CB.CloudObject('TableName');
 var query = new CB.CloudQuery('TableName');
 ```
 Notice you use `CloudObject` for posting data, and `CloudQuery` for querying data. You must also replace `'TableName'` with the name of the table you wish to post to or query from. Once we have initiated the variables, you can set, query, change, and delete data.
+
+
 1. #### Setting/posting data
 uses the Ajax/HTTP method `PUT`. When setting data, use this:
 ```JavaScript
@@ -135,52 +149,52 @@ query.findById('id',{
 Replace `'id'` with the row's ID. More on this in the [Methods of querying](#methods-of-querying) section. Next, add a `.delete` method to delete the row.
 ```JavaScript
 query.findById('id',{
-  success: function(list){
-    list.delete({
-      success: function(obj){
-        alert("Data deleted");
-      },
-      error: function(error){
-        alert("Error: "+error);
-      }
-    });
-  },
-  error: function(error){
-    alert("Error: "+error);
-  }
+    success: function(list){
+      list.delete({
+        success: function(obj){
+          alert("Data deleted");
+        },
+        error: function(error){
+          alert("Error: "+error);
+        }
+      });
+    },
+    error: function(error){
+      alert("Error: "+error);
+    }
 });
 ```
 Notice you call `.delete` on `list`, not `obj`. You do this because you are deleting the *row*, (thank heavens) not the entire TABLE. No `.save` method is needed, as it is built into the `.delete` method.<br>
 
 5. #### Methods of querying:
 for every one of these *except* `.findById`, you must call another `.find` after it. All of these set the query to *only the row* that makes the statement true. Once a `.find` method is called after this, it still returns `list` in an array, (except `.findById`, `list` is a single array) *even if* there is only one row that matches the inequality. In that case, use `list[0]` to get it.
-  * `query.equalTo('columnName','data');`<br>
-  This tests if `'data'` is equal to something in any row, in the column `'columnName'`.
-  * `query.notEqualTo('columnName','data');`<br>
-  This is the opposite of the `.equalTo` method.
-  * `query.containedIn('columnName',['data1','data2','data3']);`<br>
+  * Equal To: `query.equalTo('columnName','data');`<br>
+  This tests if `'data'` is equal to something in any row, in the column `'columnName'`. (`===`)
+  * Not Equal To:`query.notEqualTo('columnName','data');`<br>
+  This is the opposite of the `.equalTo` method. (`!==`)
+  * Contained In: `query.containedIn('columnName',['data1','data2','data3']);`<br>
   This tests if *any* of the strings in the array are equal to data in the column `'columnName'` (`OR`). In other words, this is a multiple-option `.equalTo` method.
-  * `query.notContainedIn('columnName',['data1','data2','data3']);`<br>
+  * Not Contained In: `query.notContainedIn('columnName',['data1','data2','data3']);`<br>
   This is the opposite of the `.containedIn` method.
-  * `query.containsAll('columnName',['data1','data2','data3']);`<br>
+  * Contains All: `query.containsAll('columnName',['data1','data2','data3']);`<br>
   This tests if *all* of the strings in the array are equal to data in the column `'columnName'` (`AND`). In other words, this is the same as `.containedIn` method, but inclusive. ALL the values must be equal.
-  * `query.greaterThan('columnName',42);`<br>
+  * Greater Than: `query.greaterThan('columnName',42);`<br>
   This tests if data in `'columnName'` is > (greater than) `42`.
-  * `query.lessThan('columnName',42);`<br>
+  * Less Than: `query.lessThan('columnName',42);`<br>
   This tests if data in `'columnName'` is < (less than) `42`.
-  * `query.greaterThanEqualTo('columnName',42);`<br>
+  * Greater Than or Equal To: `query.greaterThanEqualTo('columnName',42);`<br>
   This tests if data in `'columnName'` is ≥ (greater than or equal to) `42`.
-  * `query.lessThanEqualTo('columnName',42);`<br>
+  * Less Than or Equal To: `query.lessThanEqualTo('columnName',42);`<br>
   This tests if data in `'columnName'` is ≤ (less than or equal to) `42`.
-  * `query.startsWith('columnName','a');`<br>
+  * Starts With: `query.startsWith('columnName','a');`<br>
   This tests if data in `'columnName'` starts with the string `'a'`. It can have anything after it, but it must have `'a'` at the beginning.
-  * `query.or(query1,query2);`<br>
-  This acts as a simple `OR` operator between two existing queries. You must create two more variables for each query, use one of these methods, and then compare them with the `.or` method. You must call the `.find` method on the same variable that you called the `.or` method on.
-  * `query.orderByAsc('columnName')`<br>
+  * Or: `query.or(query1,query2);`<br>
+  This acts as a simple `OR` operator between two existing queries. You must create two more variables for each query, use one of these methods, and then compare them with the `.or` method. You must call the `.find` method on the same variable that you called the `.or` method on. (`||`)
+  * Order By Ascending: `query.orderByAsc('columnName')`<br>
   This will give you the same array as if you just called `.find`, but in *ascending* order.
-  * `query.orderByDesc('columnName')`<br>
+  * Order By Descending: `query.orderByDesc('columnName')`<br>
   This will give you the same array as if you just called `.find`, but in *descending* order.
-  * `query.findById('id',{ /* Callback functions */ });`<br>
+  * Find By ID: `query.findById('id',{ /* Callback functions */ });`<br>
   This is the only method that does not require a follow-up `.find`. You must replace `'id'` with the ID of the row. This can be found in the first column of the row. The callback functions are the normal `.find` callbacks, `success` and `error`.
 
 #### CloudUser
@@ -188,7 +202,8 @@ for every one of these *except* `.findById`, you must call another `.find` after
 
 *Important note: This section requires knowledge of the basics, which you can find all in [CloudObject and CloudQuery](#cloudobject-and-cloudquery). I would recommend not reading this section until you have read the previous one.*<br>
 
-Since `CloudUser` is used with a pre-existing table, you don't need to create a new one. Just initialize like normal and create the variables:
+Since `CloudUser` is used with a pre-existing table, you don't need to create a new one. Just initialize like normal and create the variables.
+##### Constructor
 ```JavaScript
 var user = new CB.CloudUser();
 ```
@@ -252,19 +267,98 @@ CB.CloudUser.current.logOut({
 Note that this will log out the *current CloudUser* (`CB.CloudUser.current`).
 
 #### CloudSearch
-*This is a Cloud variable not used for posting at all, but just for getting and sorting the data, or filtering it.*
+*This is a Cloud variable not used for posting at all, but just for getting and sorting the data, or filtering it. It is very similar to CloudQuery.*
 
 *Same thing as the previous section; you shouldn't read this until you have read [CloudObject and CloudQuery](#cloudobject-and-cloudquery), or unless you already have previous knowledge of CloudBoost.*
 
 * First, you must create a new table (unless you already have an existing one that you will use).
-* Then, initiate, like always:
+* Then, initiate, like always.
 
+##### Constructor
 ```JavaScript
-var search = new CB.CloudSearch('TableName');
+var cs = new CB.CloudSearch('TableName');
 ```
-Again, replace `'TableName'` with the name of your table.
+Again, replace `'TableName'` with the name of your table.<br>
+For the next part of the constructor, it will change depending on whether you use a search filter or query.<br>
+**Query:**
+```JavaScript
+cs.searchQuery = new CB.SearchQuery();
+```
+**Filter:**
+```JavaScript
+cs.searchFilter = new CB.SearchFilter();
+```
+These need to be *added on* to the previous constructor, not replace it. For example, if you were using SearchFilter on the table `TableThree`, your constructor would be
+```JavaScript
+var cs = new CB.CloudSearch('TableThree');
+cs.searchFilter = new CB.SearchFilter();
+```
 
-*Important note: Remember, you always need to initiate the `CloudApp` (see [Setup](#setup)) at the beginning of your files. If you are doing this in different files, each of them need their own `.init`. However, if you are doing this all in the same CloudApp, you will use the same app ID and client key.*
+*Important note: Remember, you always need to initiate the `CloudApp` (see [Setup](#setup)) at the beginning of your files. If you are doing this in different files, each of them need their own `.init`. Likewise, if you are doing this all in the same CloudApp, you will use the same app ID and client key.*
+
+1. #### SearchQuery
+  * Search On: `cs.searchQuery.searchOn('columnName', 'search');`<br>
+  This is a simple search in a column. `'columnName'` is the name of the column that you are searching, and `'search'` is the search keywords.
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+  * Phrase: ` `<br>
+
+2. #### SearchFilter
+These filters are the same as the CloudQuery methods, [Methods of Querying](#methods-of-querying). You can find everything you would use here, there; except that instead of the constructor for CloudQuery, you use this one.
+
+#### CloudGeoPoint
+*This is used for locations only. It is slightly similar to CloudObject, except more focused on the Geo Point than posting and getting data. You don't need a table for this, it stores the values away from user viewing.*
+
+##### Constructor
+```JavaScript
+var point = new CB.CloudGeoPoint(42.95,7.3);
+```
+This constructor takes two parameters: latitude and longitude, respectively, of the point you want.
+
+1. #### Distance in Kilometers
+This takes the distance of two points in a straight line, in **kilometers**.<br>
+First, declare the two points you want to compare:
+```JavaScript
+var point = new CB.CloudGeoPoint(42.95,7.3);
+var point2 = new CB.CloudGeoPoint(4.79,14.33);
+```
+Then compare them:
+```JavaScript
+console.log(point.distanceInKMs(point2));
+```
+This logs the distance, but you can do whatever you want with it. You can call `.distanceInKMs` on either point, as long as you put the other in the parameter for the aforementioned method.
+
+2. #### Distance in Miles
+This takes the distance of two points in a straight line, in **miles**.<br>
+First, declare the two points:
+```JavaScript
+var point = new CB.CloudGeoPoint(42.95,7.3);
+var point2 = new CB.CloudGeoPoint(4.79,14.33);
+```
+Then compare:
+```JavaScript
+console.log(point.distanceInMiles(point2));
+```
+Note the difference; `.distanceInKMs` to `.distanceInMiles`.
+
+3. #### Distance in Radians
+This takes the distance of two points in a straight line, in **<a href="https://en.wikipedia.org/wiki/Radian" target="_blank">radians</a>**.<br>
+First, declare the two points (this is getting repetitive):
+```JavaScript
+var point = new CB.CloudGeoPoint(42.95,7.3);
+var point2 = new CB.CloudGeoPoint(4.79,14.33);
+```
+Then compare, like always:
+```JavaScript
+console.log(point.distanceInRadians(point2));
+```
+Note the *slight* difference; `.distanceInMiles` to `.distanceInRadians`.
 
 Have fun!<br>
   -Camilo
