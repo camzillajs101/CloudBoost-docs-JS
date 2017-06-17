@@ -18,10 +18,6 @@
         * [Sign Up](#sign-up)
         * [Log In](#log-in)
         * [Log Out](#log-out)
-    * [CloudSearch](#cloudsearch) (Work in progress!)
-        * [Constructor](#constructor-2)
-        * [SearchQuery](#searchquery)
-        * [SearchFilter](#searchfilter)
     * [CloudGeoPoint](#cloudgeopoint)
         * [Constructor](#constructor-3)
         * [Distance in Kilometers](#distance-in-kilometers)
@@ -265,52 +261,6 @@ CB.CloudUser.current.logOut({
 });
 ```
 Note that this will log out the *current CloudUser* (`CB.CloudUser.current`).
-
-#### CloudSearch
-*This is a Cloud variable not used for posting at all, but just for getting and sorting the data, or filtering it. It is very similar to CloudQuery.*
-
-*Same thing as the previous section; you shouldn't read this until you have read [CloudObject and CloudQuery](#cloudobject-and-cloudquery), or unless you already have previous knowledge of CloudBoost.*
-
-* First, you must create a new table (unless you already have an existing one that you will use).
-* Then, initiate, like always.
-
-##### Constructor
-```JavaScript
-var cs = new CB.CloudSearch('TableName');
-```
-Again, replace `'TableName'` with the name of your table.<br>
-For the next part of the constructor, it will change depending on whether you use a search filter or query.<br>
-**Query:**
-```JavaScript
-cs.searchQuery = new CB.SearchQuery();
-```
-**Filter:**
-```JavaScript
-cs.searchFilter = new CB.SearchFilter();
-```
-These need to be *added on* to the previous constructor, not replace it. For example, if you were using SearchFilter on the table `TableThree`, your constructor would be
-```JavaScript
-var cs = new CB.CloudSearch('TableThree');
-cs.searchFilter = new CB.SearchFilter();
-```
-
-*Important note: Remember, you always need to initiate the `CloudApp` (see [Setup](#setup)) at the beginning of your files. If you are doing this in different files, each of them need their own `.init`. Likewise, if you are doing this all in the same CloudApp, you will use the same app ID and client key.*
-
-1. #### SearchQuery
-  * Search On: `cs.searchQuery.searchOn('columnName', 'search');`<br>
-  This is a simple search in a column. `'columnName'` is the name of the column that you are searching, and `'search'` is the search keywords.
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-  * Phrase: ` `<br>
-
-2. #### SearchFilter
-These filters are the same as the CloudQuery methods, [Methods of Querying](#methods-of-querying). You can find everything you would use here, there; except that instead of the constructor for CloudQuery, you use this one.
 
 #### CloudGeoPoint
 *This is used for locations only. It is slightly similar to CloudObject, except more focused on the Geo Point than posting and getting data. You don't need a table for this, it stores the values away from user viewing.*
