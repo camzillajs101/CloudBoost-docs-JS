@@ -25,12 +25,12 @@
         * [Distance in Radians](#distance-in-radians)
 
 ### Description
-This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET` and `PUT` requests.
+This is an API called [CloudBoost](https://cloudboost.io) used with JavaScript to post and get data from the cloud storage. It uses HTTP `GET`, `PUT`, and `DELETE` requests.
 
 ### Installation
 No installation required, unless you are using Node.js. In that case, make sure you are in your app's directory, and run this command in the command line:
 ```bash
-npm install cloudboost
+npm install cloudboost --save
 ```
 And initiate with this:
 ```JavaScript
@@ -256,11 +256,26 @@ CB.CloudUser.current.logOut({
       console.log(old_user);
     },
     error: function(error){
-      alert("Error: "+error)
+      alert("Error: "+error);
     }
 });
 ```
-Note that this will log out the *current CloudUser* (`CB.CloudUser.current`).
+Note that this will log out the *current CloudUser* (hence the variable `CB.CloudUser.current`).
+
+4. #### Change password
+This is a method to change a user's password (after they already initiated it with `CB.signUp`), as they might want to do if they entered a weak password. Again, this is called on `CB.CloudUser.current`, as you are changing the *current user*'s password.
+```JavaScript
+CB.CloudUser.current.changePassword('current_password','new_password',{
+  success: function(current_user){
+    alert("Password changed");
+    console.log(current_user);
+  },
+  error: function(error){
+    alert("Error: "+error);
+  }
+});
+```
+This method takes three parameters: `'current_password'`, the user's old password, `'new_password'`, the user's new  password, and the regular callback function. Note that the `error` function will be called if `'current_password'` is incorrect, i.e. is not the password that the user had before.
 
 #### CloudGeoPoint
 *This is used for locations only. It is slightly similar to CloudObject, except more focused on the Geo Point than posting and getting data. You don't need a table for this, it stores the values away from user viewing.*
