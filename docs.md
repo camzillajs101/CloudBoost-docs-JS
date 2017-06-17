@@ -18,6 +18,8 @@
         * [Sign Up](#sign-up)
         * [Log In](#log-in)
         * [Log Out](#log-out)
+        * [Change Password](#change-password)
+        * [Reset Password](#reset-password)
     * [CloudGeoPoint](#cloudgeopoint)
         * [Constructor](#constructor-3)
         * [Distance in Kilometers](#distance-in-kilometers)
@@ -276,6 +278,20 @@ CB.CloudUser.current.changePassword('current_password','new_password',{
 });
 ```
 This method takes three parameters: `'current_password'`, the user's old password, `'new_password'`, the user's new  password, and the regular callback function. Note that the `error` function will be called if `'current_password'` is incorrect, i.e. is not the password that the user had before.
+
+5. #### Reset password
+This is similar to the `.changePassword` method, but instead of calling the function with all of the parameters there, it sends an email to the email address given, which takes them to a link to change their password. This is very configurable, and you can change the email method and website, etc. from the CloudBoost website.
+```JavaScript
+CB.CloudUser.resetPassword('email_address',{
+  success: function(){
+    alert("Email sent");
+  },
+  error: function(error){
+    alert("Error: "+error);
+  }
+});
+```
+This method takes two parameters: `'email_address'`, the email address to which the email will be sent, and the regular callback function.
 
 #### CloudGeoPoint
 *This is used for locations only. It is slightly similar to CloudObject, except more focused on the Geo Point than posting and getting data. You don't need a table for this, it stores the values away from user viewing.*
