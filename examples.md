@@ -20,3 +20,6 @@
     * [Distance in Radians](#distance-in-radians)
 
 *This markdown file is are simply examples directly corresponding to the `docs.md` file. Full descriptions  of each are in the aforementioned file. **Note:** These are impractical examples and meant only to teach.*
+
+#### CloudObject and CloudQuery
+1. #### Setting/posting data
