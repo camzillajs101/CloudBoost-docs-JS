@@ -47,14 +47,14 @@ obj.save({
 CB.CloudApp.init('APP-ID','CLIENT-KEY');
 var query = new CB.CloudQuery('TableName');
 obj.find({
-  success: function(list){
-    console.log("All users:",list);
-    // list is array of all rows
-  },
-  error: function(error){
-    alert("Error: "+error);
-    // error is the problem the
-    // server might have encountered
-  }
+    success: function(list){
+      console.log("All users:",list);
+      // list is array of all rows
+    },
+    error: function(error){
+      alert("Error: "+error);
+      // error is the problem the
+      // server might have encountered
+    }
 });
 ```
