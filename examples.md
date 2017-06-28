@@ -60,3 +60,33 @@ obj.find({
 });
 ```
 3. #### Changing data
+```JavaScript
+CB.CloudApp.init('APP-ID','CLIENT-KEY');
+var obj = new CB.CloudObject('TableName');
+var query = new CB.CloudQuery('TableName');
+var newPassword = prompt("New password:");
+query.findById(window.currentUser.id,{
+    success: function(list){
+      /* see Methods of Querying section
+       * for info on .findById */
+      list.set('password',newPassword);
+      list.save({
+        success: function(obj){
+          alert("Password changed!");
+          // obj is the object that
+          // was changed
+        },
+        error: function(error){
+          alert("Error: "+error);
+          // error is the problem the
+          // server might have encountered
+        }
+      });
+    },
+    error: function(error){
+      alert("Error: "+error);
+      // error is the problem the
+      // server might have encountered
+    }
+});
+```
