@@ -23,3 +23,23 @@
 
 #### CloudObject and CloudQuery
 1. #### Setting/posting data
+```JavaScript
+CB.CloudApp.init('APP-ID','CLIENT-KEY');
+var obj = new CB.CloudObject('TableName');
+var usernameInput = prompt("Username:");
+var passwordInput = prompt("Password:");
+obj.set("username",usernameInput);
+obj.set("password",passwordInput);
+obj.save({
+    success: function(obj){
+      alert("Success!");
+      // obj is the object that
+      // was saved to CloudBoost
+    },
+    error: function(error){
+      alert("Error: "+error);
+      // error is the problem the
+      // server might have encountered
+    }
+});
+```
