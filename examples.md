@@ -43,6 +43,7 @@ obj.save({
     }
 });
 ```
+2. #### Querying/getting data
 ```JavaScript
 CB.CloudApp.init('APP-ID','CLIENT-KEY');
 var query = new CB.CloudQuery('TableName');
