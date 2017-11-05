@@ -90,3 +90,34 @@ query.findById(window.currentUser.id,{
     }
 });
 ```
+4. #### Deleting rows
+```JavaScript
+CB.CloudApp.init('APP-ID','CLIENT-KEY');
+var obj = new CB.CloudObject('TableName');
+query.findById(window.currentUser.id,{
+    success: function(list){
+      /* see Methods of Querying section
+       * for info on .findById */
+      list.delete({
+        success: function(obj){
+          alert("Account deleted!");
+          // obj is the object that
+          // was deleted
+        },
+        error: function(error){
+          alert("Error: "+error);
+          // error is the problem the
+          // server might have encountered
+        }
+      });
+    },
+    error: function(error){
+      alert("Error: "+error);
+      // error is the problem the
+      // server might have encountered
+    }
+});
+```
+    }
+  });
+  ```
